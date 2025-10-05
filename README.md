@@ -1,5 +1,15 @@
 # Process Management Assignment (ENCS351)
 
+### Process Creation and Management using Python
+This project demonstrates core operating system concepts — process creation, execution, inter-process relationships, scheduling, and inspection — using Python’s `os` and `/proc` modules. It covers:
+- Forking child processes
+- Executing system commands via `exec`
+- Demonstrating zombie & orphan states
+- Inspecting process details via `/proc`
+- Observing scheduling impact using `nice`
+
+
+
 Files:
 - process_management.py    : Main Python script implementing Tasks 1..5
 - output.txt               : Sample output (representative)
