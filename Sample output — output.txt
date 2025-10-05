@@ -1,0 +1,69 @@
+[Task1] Creating 3 child processes...
+[Parent] Forked child 1 with PID 23456
+[Parent] Forked child 2 with PID 23457
+[Parent] Forked child 3 with PID 23458
+Child #1: PID=23456, PPID=23450 -- Hello from child 1
+Child #2: PID=23457, PPID=23450 -- Hello from child 2
+Child #3: PID=23458, PPID=23450 -- Hello from child 3
+[Parent] Reaped child PID=23456, status=0
+[Parent] Reaped child PID=23457, status=0
+[Parent] Reaped child PID=23458, status=0
+[Task1] All children finished.
+
+[Task2] Spawning children that will exec commands ...
+[Child 1] (PID 23459) executing: /bin/ls -l
+(total listing printed here)
+[Parent] Forked child 1 PID 23459 to run: /bin/ls -l
+[Parent] Forked child 2 PID 23460 to run: /bin/date
+(Date printed here)
+[Parent] Forked child 3 PID 23461 to run: /bin/ps aux
+(ps output printed)
+[Parent] Reaped child PID=23459, status=0
+[Parent] Reaped child PID=23460, status=0
+[Parent] Reaped child PID=23461, status=0
+[Task2] Done.
+
+[Task3] Demonstrating zombie and orphan processes.
+1) Zombie demo: parent will fork child and NOT wait immediately. Run `ps -el | grep defunct` in another terminal to see defunct.
+[Zombie-child] I am child PID=23462; exiting immediately to become zombie until parent waits.
+[Parent] Forked child PID=23462; sleeping for 6s without waiting to allow zombie state observation.
+(At this time, running `ps -el | grep defunct` shows a defunct entry)
+[Parent] Now reaped child PID=23462. Zombie gone. (status=0)
+
+2) Orphan demo: parent will fork child and exit immediately; child will continue (adopted by init/systemd).
+[Parent] Forked orphanable child PID=23463; parent exiting immediately so child becomes orphan.
+(Orphan-child prints)
+[Orphan-child] PID=23463, PPID=1 - working (1/5)
+...
+[Orphan-child] Done.
+
+[Task4] Inspecting PID=23450
+Status info:
+  Name: python3
+  State: S (sleeping)
+  VmRSS:    12000 kB
+Executable path: /usr/bin/python3.10
+Open file descriptors:
+  fd 0 -> /dev/pts/2
+  fd 1 -> /dev/pts/2
+  fd 2 -> /dev/pts/2
+  fd 3 -> /home/yuvi/process_management.py
+
+[Task5] Creating 4 CPU-intensive processes with different nice values.
+[Parent] Launched child 0 PID=23464 with requested nice 0
+[Parent] Launched child 1 PID=23465 with requested nice 5
+[Parent] Launched child 2 PID=23466 with requested nice 10
+[Parent] Launched child 3 PID=23467 with requested nice 15
+[Child 0] PID=23464 starting busy work with nice=0 (PPID=23450)
+[Child 1] PID=23465 starting busy work with nice=5 (PPID=23450)
+[Child 2] PID=23466 starting busy work with nice=10 (PPID=23450)
+[Child 3] PID=23467 starting busy work with nice=15 (PPID=23450)
+[Child 3] PID=23467 finished. elapsed=4.012 sec. nice=15
+[Child 2] PID=23466 finished. elapsed=4.014 sec. nice=10
+[Child 1] PID=23465 finished. elapsed=4.018 sec. nice=5
+[Child 0] PID=23464 finished. elapsed=4.021 sec. nice=0
+[Parent] Reaped child PID=23467, status=0
+[Parent] Reaped child PID=23466, status=0
+[Parent] Reaped child PID=23465, status=0
+[Parent] Reaped child PID=23464, status=0
+[Task5] Done.
