@@ -1,0 +1,34 @@
+Process Creation and Management Using Python OS Module
+Course: ENCS351 - Operating System
+
+Objectives:
+- Understand process lifecycle and parent-child relationships
+- Create processes using fork(), execute commands using execvp()
+- Demonstrate zombie and orphan process states
+- Inspect running processes using /proc
+- Demonstrate scheduling impact using nice()
+
+Summary of Implementation:
+- All tasks (1–5) implemented in a single script `process_management.py`.
+- Task 1: Spawns N children using os.fork(); each child prints PID/PPID and exits; parent waits using os.wait().
+- Task 2: Each child replaces itself with a system command using os.execvp(), demonstrating the exec behavior.
+- Task 3: Demonstrated zombie by letting child exit while parent sleeps (use `ps -el | grep defunct` to observe). Demonstrated orphan by parent exiting immediately while child continues; child shows PPID changes to 1.
+- Task 4: Reads `/proc/[pid]/status`, resolves `/proc/[pid]/exe`, and lists `/proc/[pid]/fd` entries; prints Name, State, memory fields, exe path and open file descriptors.
+- Task 5: Spawned multiple CPU-bound children and assigned different nice values using os.nice(). Each child prints its nice value and elapsed busy-work time to observe scheduling effects.
+
+Results:
+- Verified correct child-parent relationships and process creation.
+- Exec replaced child processes with commands and produced expected outputs (ls, date, ps).
+- Zombie state observed when parent intentionally delayed wait(); orphan observed when parent exited early.
+- /proc inspection returned process metadata and file descriptors for tested PIDs.
+- Prioritization test printed finish order and elapsed times for children with different nice values. Observed scheduler behaviors depend on system load; script logs make comparisons straightforward.
+
+Complexity Analysis:
+- Time complexity: O(n) for creating/waiting on n children.
+- Space complexity: O(n) for storing child PIDs and logs.
+
+How to reproduce:
+- See README.md included with code. Run on Linux; follow interactive menu.
+
+Author: Yuv Raj Singh Yadav (replace with your name if required)
+Date: (paste current date)
